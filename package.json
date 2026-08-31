@@ -1,0 +1,31 @@
+{
+  "name": "gh-achievements",
+  "version": "0.1.0",
+  "description": "Inspect a GitHub profile and report which achievement badges are earned, which are missing, and exactly what is left to earn them.",
+  "type": "module",
+  "bin": {
+    "gh-achievements": "./src/cli.js"
+  },
+  "main": "./src/index.js",
+  "exports": {
+    ".": "./src/index.js"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "scripts": {
+    "test": "node --test \"test/**/*.test.js\"",
+    "start": "node src/cli.js"
+  },
+  "keywords": [
+    "github",
+    "achievements",
+    "badges",
+    "profile",
+    "cli"
+  ],
+  "license": "MIT",
+  "files": [
+    "src/"
+  ]
+}
