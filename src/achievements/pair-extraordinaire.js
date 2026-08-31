@@ -14,6 +14,21 @@ export function coAuthors(message) {
   return found;
 }
 
+/**
+ * Say what is left to do at the tier reached.
+ *
+ * Once the badge is held, "add a co-author" is no longer useful advice — what
+ * the holder wants to know is how far the next tier is.
+ */
+function nextStep(tier) {
+  if (tier.maxed) return null;
+  if (!tier.earned) {
+    return "add a `Co-authored-by:` trailer to a commit on a pull request you merge";
+  }
+  const plural = tier.remaining === 1 ? "" : "s";
+  return `${tier.remaining} more co-authored pull request${plural}`;
+}
+
 export default register({
   id: "pair-extraordinaire",
   name: "Pair Extraordinaire",
@@ -44,9 +59,7 @@ export default register({
       // Only the most recent `sample` merged pull requests are inspected.
       exact: false,
       detail: `${count} of the ${merged.length} most recent merged pull requests carry a co-author`,
-      todo: tier.maxed
-        ? null
-        : "add a `Co-authored-by:` trailer to a commit on a pull request you merge",
+      todo: nextStep(tier),
     };
   },
 });
