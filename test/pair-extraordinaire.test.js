@@ -34,6 +34,19 @@ test("counts merged pull requests carrying a co-authored commit", async () => {
   assert.equal(result.exact, false);
 });
 
+test("an earned badge is told how far the next tier is, not how to start", async () => {
+  const client = fakeClient({
+    "search/issues": searchBody([
+      { pull_request: { url: "https://api.github.com/repos/o/r/pulls/1" } },
+    ]),
+    "repos/o/r/pulls/1/commits": [{ commit: { message: "x\n\nCo-authored-by: A <a@x.com>" } }],
+  });
+
+  const result = await pair.detect({ client, username: "octocat" });
+  assert.equal(result.earned, true);
+  assert.equal(result.todo, "9 more co-authored pull requests");
+});
+
 test("not earned when no merged pull request is co-authored", async () => {
   const client = fakeClient({
     "search/issues": searchBody([
